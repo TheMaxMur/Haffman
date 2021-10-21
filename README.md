@@ -1,14 +1,14 @@
 # Encoder/decoder for Haffman algorithm
 
-### USAGE:
+## USAGE:
 
-##### Encode:
+### Encode:
 
 ```bash
 ./encode.py
 ```
 
-##### Decode:
+### Decode:
 
 Use decode before encode
 
