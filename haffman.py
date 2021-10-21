@@ -58,13 +58,6 @@ def generate(text: list=[]):
         massive = generate_tree(massive)
     return (massive)
 
-# Generate binary tree for decode
-def generate_for_decode(result: dict={}):
-    massive = generate_first_lvl_tree(result)
-    while (len(massive) > 1):
-        massive = generate_tree(massive)
-    return (massive)
-
 # Encode text by Haffman code
 def encode_text(text: str='', code_h: dict={}):
     res = ""
