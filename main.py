@@ -18,8 +18,7 @@ def create_dict(node, code=''):
 def main(text: str=''):
     global G_CODE_H
     G_CODE_H = {}
-    #flag = input("Code by symbol or by word? (w/s): ")
-    flag = 'w'
+    flag = input("Code by symbol or by word? (w/s): ")
     try:
         open("dictionary", 'w')
     except:
@@ -43,21 +42,26 @@ def main(text: str=''):
         return
     create_dict(root)
     G_CODE_H = dict(sorted(G_CODE_H.items(), key=lambda x: len(x[1])))
-    '''for el in G_CODE_H.keys():
+    print(f"Original text:\n%s" % text)
+    for el in G_CODE_H.keys():
         if el == '\n':
             print(f"Symbol '\\n'. Code: %s." % G_CODE_H[el])
             continue
         if el == ' ':
             print(f"Symbol '\\s'. Code: %s." % G_CODE_H[el])
             continue
-        print(f"Symbol '%s'. Code: %s." % (el, G_CODE_H[el]))'''
+        print(f"Symbol '%s'. Code: %s." % (el, G_CODE_H[el]))
     if flag == 's':
         text = encode_text(text, G_CODE_H)
     else:
         text = encode_text_word(text, G_CODE_H)
-   #print(f"Encoded text: %s" % text)
+    print(f"Encoded text:\n%s" % text)
     with open("encode", 'w') as encode_file:
         encode_file.write(f"%s\n" % text)
+    text = decode_text(text, G_CODE_H)
+    print(f"Decoded text:\n%s " % text)
+    with open("decode", 'w') as decode_file:
+        decode_file.write(f"%s\n" % text)
 
 def read_file(filename: str):
     if filename:
@@ -68,8 +72,7 @@ def read_file(filename: str):
             pass
 
 if __name__ == '__main__':
-    #argv = sys.argv[1:]
-    argv = ["text"]
+    argv = sys.argv[1:]
     if argv:
         for el in argv:
             text = read_file(el)
