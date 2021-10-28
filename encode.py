@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import re
 import sys
+import bitarray
 from haffman import *
 
 G_CODE_H = {}
@@ -55,9 +56,10 @@ def main(text: str=''):
         text = encode_text(text, G_CODE_H)
     else:
         text = encode_text_word(text, G_CODE_H)
-   #print(f"Encoded text: %s" % text)
-    with open("encode", 'w') as encode_file:
-        encode_file.write(f"%s\n" % text)
+    #print(f"Encoded text: %s" % text)
+    array = bitarray.bitarray(text)
+    with open("encode", 'bw') as encode_file:
+        array.tofile(encode_file)
 
 def read_file(filename: str):
     if filename:

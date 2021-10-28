@@ -2,6 +2,7 @@
 from haffman import *
 import re
 import sys
+import bitarray
 
 G_CODE_H = {}
 
@@ -26,7 +27,14 @@ def main(d_file: str="", encode_file: str=""):
     root = generate_for_decode(G_CODE_H)[0]
     G_CODE_H = {}
     create_dict(root)
-    text = open(encode_file, "r").read().strip()
+    text = bitarray.bitarray()
+    with open('encode', 'br') as encoded_file:
+        text.fromfile(encoded_file)
+    result = ""
+    for el in text: 
+        result += str(el)
+    text = result
+    del result
     text = decode_text(text, G_CODE_H)
     with open("decode", 'w') as encode_file:
         encode_file.write(f"%s\n" % text)
