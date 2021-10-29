@@ -16,16 +16,16 @@ def create_dict(node, code: str=""):
         create_dict(node.right, code + '1')
 
 # Entrypoint
-def main(d_file: str="", encode_file: str=""):
+def main(d_file: str="", encode_file: str="", path: str=""):
     global G_CODE_H
+    G_CODE_H = {}
     with open(d_file, 'r') as data:
         for line in data:
             line = line.rstrip("\n")
             sym, weigth = line.split(":")
-            weigth = hex_to_int(weigth)
             #sym = re.sub(r"\'", "" , line.split(" : ")[0])
             #weigth = line.split(" : ")[1]
-            G_CODE_H[sym] = int(weigth)
+            G_CODE_H[sym] = hex_to_int(weigth) #int(weigth)
     root = generate_for_decode(G_CODE_H)[0]
     G_CODE_H = {}
     create_dict(root)
@@ -38,11 +38,12 @@ def main(d_file: str="", encode_file: str=""):
     text = result
     del result
     text = decode_text(text, G_CODE_H)
-    with open("decode", 'w') as encode_file:
+    with open(path + "decoded_text", 'w') as encode_file:
         encode_file.write(f"%s\n" % text)
 
 
 if __name__ == '__main__':
     #argv = sys.argv[1:]
-    main("dictionary", "encode")
+    main("hamlet/dictionary", "hamlet/encoded_text", "hamlet/")
+    main("romeo_and_juliet/dictionary", "romeo_and_juliet/encoded_text", "romeo_and_juliet/")
 

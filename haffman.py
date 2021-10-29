@@ -11,7 +11,7 @@ class Node():
 # Sort dictionary by value
 def sort_dict(d: dict):
     sorted_dict = {}
-    sorted_keys = sorted(d, key=d.get)
+    sorted_keys = dict(sorted(d.items(), key=lambda x: (x[1], x[0])))
 
     for w in sorted_keys:
         sorted_dict[w] = d[w]
@@ -44,31 +44,32 @@ def generate_tree(m: list):
     massive.append(Node(letter, weight, left, right))
     for i in range(2, len(m)):
         massive.append(m[i])
-    massive.sort(key=lambda x: x.weight)
+    massive.sort(key=lambda x: (x.weight, x.letter))
     return (massive)
 
 def int_to_hex(n: int=0):
-    alpha = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "A", 11: "B", 12: "C", 13: "D", 14: "D", 15: "F"}
+    return (str(hex(n))[2:])
+    '''alpha = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "A", 11: "B", 12: "C", 13: "D", 14: "D", 15: "F"}
     result = ""
     while (n != 0):
-        result = alpha[n%16] + result
+        result += alpha[n%16]
         n = n // 16
-    return (result)
-
+    return (result[::-1])'''
 
 def hex_to_int(n: str=""):
-    alpha = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'A': 10, 'B': 11, 'C': 12, 'D': 14, 'F': 15}
+    '''alpha = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'A': 10, 'B': 11, 'C': 12, 'D': 14, 'F': 15}
     result = 0
     rank = 1
     for el in n[::-1]:
         result += alpha[el] * rank
-        rank *= 16
-    return (result)
+        rank *= 16'''
+    return (int(n, 16))
+    #return (result)
 
 # Generate binary tree
-def generate(text: list=[]):
+def generate(text: list=[], path: str=''):
     result = sort_dict(generate_dict(text))
-    with open("dictionary", 'a') as table:
+    with open(path + "dictionary", 'a') as table:
         for el in result.keys():
             table.write(f"%s:%s\n" % (el, int_to_hex(int(result[el]))))
     massive = generate_first_lvl_tree(result)
@@ -78,6 +79,7 @@ def generate(text: list=[]):
 
 # Generate binary tree for decode
 def generate_for_decode(result: dict={}):
+    result = sort_dict(result)
     massive = generate_first_lvl_tree(result)
     while (len(massive) > 1):
         massive = generate_tree(massive)

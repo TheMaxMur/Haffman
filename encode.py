@@ -16,13 +16,13 @@ def create_dict(node, code=''):
         create_dict(node.right, code + '1')
 
 # Entrypoint
-def main(text: str=''):
+def main(text: str='', path: str=''):
     global G_CODE_H
     G_CODE_H = {}
     #flag = input("Code by symbol or by word? (w/s): ")
     flag = 'w'
     try:
-        open("dictionary", 'w')
+        open(path + "dictionary", 'w')
     except:
         pass
     if flag == 's':
@@ -37,7 +37,7 @@ def main(text: str=''):
                 tmp.append(" ")
         massive = tmp
         del tmp
-        root = generate(massive)[0]
+        root = generate(massive, path)[0]
         del massive
     else:
         print("ERROR")
@@ -58,7 +58,7 @@ def main(text: str=''):
         text = encode_text_word(text, G_CODE_H)
     #print(f"Encoded text: %s" % text)
     array = bitarray.bitarray(text)
-    with open("encode", 'bw') as encode_file:
+    with open(path + "encoded_text", 'bw') as encode_file:
         array.tofile(encode_file)
 
 def read_file(filename: str):
@@ -71,12 +71,12 @@ def read_file(filename: str):
 
 if __name__ == '__main__':
     #argv = sys.argv[1:]
-    argv = ["text"]
+    argv = ["hamlet/original_text", "romeo_and_juliet/original_text"]
     if argv:
         for el in argv:
             text = read_file(el)
             if text:
-                main(text)
+                main(text, el.split("/")[0] + "/")
             else:
                 print("ERROR. Can't read file.")
 
