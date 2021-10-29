@@ -20,15 +20,17 @@ def main(d_file: str="", encode_file: str=""):
     global G_CODE_H
     with open(d_file, 'r') as data:
         for line in data:
-            line = line.strip()
-            sym = re.sub(r"\'", "" , line.split(" : ")[0])
-            weigth = line.split(" : ")[1]
+            line = line.rstrip("\n")
+            sym, weigth = line.split(":")
+            weigth = hex_to_int(weigth)
+            #sym = re.sub(r"\'", "" , line.split(" : ")[0])
+            #weigth = line.split(" : ")[1]
             G_CODE_H[sym] = int(weigth)
     root = generate_for_decode(G_CODE_H)[0]
     G_CODE_H = {}
     create_dict(root)
     text = bitarray.bitarray()
-    with open('encode', 'br') as encoded_file:
+    with open(encode_file, 'br') as encoded_file:
         text.fromfile(encoded_file)
     result = ""
     for el in text: 
