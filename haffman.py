@@ -100,6 +100,6 @@ def encode_text_word(text: str='', dictionary: dict={}):
 
 def clear_txt(text: str=''):
     text = re.sub(r"[^A-Za-z0-9А-Яа-я\s]", "", text)
-    text = re.sub(r"\n", "", text)
+    #text = re.sub(r"\n", "", text)
     return (text)
 
