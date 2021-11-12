@@ -43,7 +43,17 @@ def main(d_file: str="", encode_file: str="", path: str=""):
 
 
 if __name__ == '__main__':
-    #argv = sys.argv[1:]
-    main("hamlet/dictionary", "hamlet/encoded_text", "hamlet/")
-    main("romeo_and_juliet/dictionary", "romeo_and_juliet/encoded_text", "romeo_and_juliet/")
+    argv = sys.argv[1:]
+    if "--help" in argv:
+        print("USAGE:\n./decode.py path/to/dictionary path/to/encoded_text")
+        exit()
+    #print("/".join(argv[0].split("/")))
+    try:
+        main(argv[0], argv[1], "/".join(argv[0].split("/")[:len(argv[0].split("/")) - 1]) + '/')
+    except Exception as error:
+        print("USAGE:\n./decode.py path/to/dictionary path/to/encoded_text")
+    #main("hamlet/dictionary", "hamlet/encoded_text", "hamlet/")
+    #main("romeo_and_juliet/dictionary", "romeo_and_juliet/encoded_text", "romeo_and_juliet/")
+    #main("romeo_and_juliet/dictionary", "hamlet/encoded_text", "cross-ent/1")
+    #main("hamlet/dictionary", "romeo_and_juliet/encoded_text", "cross-ent/2")
 

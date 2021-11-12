@@ -70,15 +70,19 @@ def read_file(filename: str):
             pass
 
 if __name__ == '__main__':
-    #argv = sys.argv[1:]
-    argv = ["hamlet/original_text", "romeo_and_juliet/original_text"]
+    argv = sys.argv[1:]
+    #argv = ["hamlet/original_text", "romeo_and_juliet/original_text", "tempest/original_text", "king_lear/original_text"]
+    if "--help" in argv:
+        print("USAGE:\n./encode.py /path/to/file/for/encode")
+        exit()
     if argv:
         for el in argv:
             text = read_file(el)
             if text:
-                main(text, el.split("/")[0] + "/")
+                main(text, "/".join(el.split("/")[:len(el.split("/")) - 1]) + '/')
             else:
                 print("ERROR. Can't read file.")
 
     else:
-        main('ababasdbas bbbsafs dflk jsdaasdf')
+        print("USAGE:\n./encode.py /path/to/file/for/encode")
+        #main('ababasdbas bbbsafs dflk jsdaasdf')
